@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+
+# Namespace: Attn
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
+require 'attn'
+
+options = {
+  config_path: File.expand_path('../config/attn.yml', __dir__)
+}
+
+option_parser = OptionParser.new do |parser|
+  parser.banner = 'Usage: attn [options]'
+
+  parser.on('-c', '--config PATH', 'Path to YAML config file') do |value|
+    options[:config_path] = value
+  end
+
+  parser.on('-h', '--help', 'Show help') do
+    puts parser
+    exit 0
+  end
+end
+
+option_parser.parse!
+
+runner = Attn::Runner.new(config_path: options[:config_path])
+runner.run
