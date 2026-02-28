@@ -1,0 +1,81 @@
+# Content Aggregator Configuration
+# Copy this file to config.yml and customize
+
+email:
+  # Source: gmail, imap, or mbox
+  source: gmail
+
+  # Gmail API credentials
+  # Get these from Google Cloud Console: https://console.cloud.google.com/
+  # 1. Create project, enable Gmail API
+  # 2. Create OAuth credentials (Desktop app)
+  # 3. Get refresh_token (one-time exchange via OAuth flow)
+  gmail:
+    refresh_token: TBD
+    client_id: TBD
+    client_secret: TBD
+
+  # IMAP settings (for future use)
+  imap:
+    host: TBD
+    port: 993
+    username: TBD
+    password: TBD
+
+  # MBOX path (for future use)
+  mbox_path: TBD
+
+  # Email filters - Gmail search query parameters
+  filters:
+    # Examples:
+    # from: sender@example.com
+    # subject: important
+    # after: 2024/01/01
+    # before: 2024/12/31
+    unread_only: true
+    has_attachments: false
+    # Blocked senders (applied after fetch)
+    blocked_senders:
+      - noreply@
+      - newsletter@
+      - notifications@
+
+llm:
+  # OpenAI API
+  # Get key from: https://platform.openai.com/api-keys
+  api_key: TBD
+  model: gpt-4.1-2025-04-14
+  api_url: https://api.openai.com/v1/chat/completions
+
+ranking:
+  # Number of top stories to surface
+  top_count: 5
+
+  # Sender weights (add score for known important senders)
+  # Example: "boss@company.com": 5.0
+  sender_weights: {}
+
+  # Keyword bonuses (add score for content keywords)
+  keyword_bonus:
+    urgent: 2.0
+    action: 1.0
+    deadline: 1.5
+    meeting: 0.5
+    decision: 1.0
+
+  # Attachment bonus
+  attachment_bonus: 1.0
+
+  # Recency bonus per hour
+  recency_bonus: 0.1
+
+  # Bonus for longer content
+  length_bonus: 0.5
+
+# Storage paths (relative to project root)
+storage:
+  data_dir: ./data
+
+# Scheduling (for cron setup)
+# Run daily at 6 AM:
+# 0 6 * * * /Users/brian/bin/content_aggregator/bin/content_aggregator >> /Users/brian/bin/content_aggregator/logs/aggregator.log 2>&1

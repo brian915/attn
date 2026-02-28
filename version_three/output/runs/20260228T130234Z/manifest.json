@@ -1,0 +1,21 @@
+{
+  "run_id": "20260228T130234Z",
+  "started_at": "2026-02-28T13:02:34Z",
+  "finished_at": "2026-02-28T13:02:34Z",
+  "status": "partial_failure",
+  "config_path": "/Users/brian/dotfiles/bin/content_aggregator/version_three/config/content_aggregator.yml.example",
+  "paths": {
+    "run_dir": "/Users/brian/dotfiles/bin/content_aggregator/version_three/output/runs/20260228T130234Z",
+    "manifest_path": "/Users/brian/dotfiles/bin/content_aggregator/version_three/output/runs/20260228T130234Z/manifest.json",
+    "processed_ids_path": "/Users/brian/dotfiles/bin/content_aggregator/version_three/output/state/processed_message_ids.txt"
+  },
+  "counts": {
+    "fetched": 0,
+    "new": 0,
+    "deduped": 0,
+    "summarized": 0
+  },
+  "errors": [
+    "Missing Gmail auth settings: GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN. Configure env vars or set GMAIL_ACCESS_TOKEN."
+  ]
+}

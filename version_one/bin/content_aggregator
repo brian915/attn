@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'yaml'
+require 'optparse'
+require_relative '../lib/email_fetcher'
+require_relative '../lib/storage'
+require_relative '../lib/summarizer'
+require_relative '../lib/aggregator'
+require_relative '../lib/formatter'
+
+CONFIG_PATH = File.expand_path('../config.yml', __FILE__)
+DATA_DIR = File.expand_path('../data', __FILE__)
+
+options = {
+  config: CONFIG_PATH,
+  dry_run: false,
+  verbose: false
+}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: content_aggregator [options]"
+  opts.on("-c", "--config PATH", "Config file path") { |path| options[:config] = path }
+  opts.on("-n", "--dry-run", "Show what would be done without making changes") { options[:dry_run] = true }
+  opts.on("-v", "--verbose", "Enable verbose output") { options[:verbose] = true }
+end.parse!
+
+def main(options)
+  config = load_config(options[:config])
+  puts "Loading config from: #{options[:config]}" if options[:verbose]
+
+  email_fetcher = EmailFetcher.new(config, options[:verbose])
+  puts "Fetching emails..." if options[:verbose]
+  emails = email_fetcher.fetch
+
+  if emails.empty?
+    puts "No emails found matching criteria."
+    return
+  end
+
+  puts "Found #{emails.size} emails" if options[:verbose]
+
+  storage = Storage.new(DATA_DIR, options[:verbose])
+  stored_emails = emails.map { |email| storage.save_email(email) }
+
+  summarizer = Summarizer.new(config, DATA_DIR, options[:verbose])
+  summaries = stored_emails.map { |email| summarizer.summarize(email) }
+
+  aggregator = Aggregator.new(config, options[:verbose])
+  top_stories = aggregator.rank(summaries)
+
+  formatter = Formatter.new(options[:verbose])
+  output = formatter.format_digest(top_stories)
+
+  puts "\n" + "=" * 50
+  puts "DAILY DIGEST"
+  puts "=" * 50
+  puts output
+
+  storage.save_digest(output)
+
+  if options[:dry_run]
+    puts "\n[DRY RUN] No files were written."
+  else
+    puts "\nDigest saved to: #{DATA_DIR}/digests/"
+  end
+end
+
+def load_config(config_path)
+  unless File.exist?(config_path)
+    puts "Config file not found: #{config_path}"
+    puts "Copy config.yml.example to config.yml and customize."
+    exit 1
+  end
+  YAML.load_file(config_path)
+end
+
+main(options)

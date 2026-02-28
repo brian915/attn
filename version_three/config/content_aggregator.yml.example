@@ -1,0 +1,32 @@
+gmail:
+  user_id: "me"
+  query_senders:
+    - "TBD_sender_one@example.com"
+    - "TBD_sender_two@example.com"
+  lookback_hours: 24
+  max_results: 100
+
+output:
+  base_dir: "./output"
+  digest_filename: "digest.md"
+
+ranking:
+  top_n: 5
+  sender_priority:
+    "important_sender@example.com": 2.0
+  keywords:
+    - "breaking"
+    - "launch"
+    - "funding"
+    - "security"
+    - "incident"
+
+llm:
+  provider: "openai"
+  model: "TBD_MODEL"
+  temperature: 0.2
+  max_tokens: 700
+  timeout_seconds: 60
+
+behavior:
+  continue_on_api_error: true
