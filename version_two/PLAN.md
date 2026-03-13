@@ -211,30 +211,30 @@ weighted_score = (claude_score * 0.7) + (sender_priority * 0.2) + (recency * 0.1
 Here's the status summary:
 
 Accomplished
-* PLAN.md -- full project plan with decisions, trade-offs, deferred items, next steps
-* fetch_gmail.rb -- Phase 1: Gmail OAuth2 fetch, email storage as markdown
-* summarize.rb -- Phase 2: Claude API summarization with structured output
-* build_digest.rb -- Phase 3: weighted ranking + editorial generation + digest output
-* digest.rb -- orchestrator calling all three phases in sequence
-* prompts/summarize.txt -- structured Claude prompt (summary + score + takeaways)
-* prompts/rank.txt -- Claude editorial prompt
-* Gemfile -- single gem dependency (google-apis-gmail_v1)
-* Directory structure: data/raw/, data/summaries/, data/digests/
+* PLAN.md -- full project plan with decisions, trade-offs, deferred items, next steps
+* fetch_gmail.rb -- Phase 1: Gmail OAuth2 fetch, email storage as markdown
+* summarize.rb -- Phase 2: Claude API summarization with structured output
+* build_digest.rb -- Phase 3: weighted ranking + editorial generation + digest output
+* digest.rb -- orchestrator calling all three phases in sequence
+* prompts/summarize.txt -- structured Claude prompt (summary + score + takeaways)
+* prompts/rank.txt -- Claude editorial prompt
+* Gemfile -- single gem dependency (google-apis-gmail_v1)
+* Directory structure: data/raw/, data/summaries/, data/digests/
 Missing / TBD (requires your input)
 Item	Blocker
 credentials.json	Obtain from Google Cloud Console -- first next step
 token.yaml	Auto-generated on first OAuth run
-SENDER_FILTER in fetch_gmail.rb	Your actual sender email addresses
-SENDER_PRIORITY in build_digest.rb	Your priority weighting for those senders
-ANTHROPIC_API_KEY env var	Set in shell profile
+SENDER_FILTER in fetch_gmail.rb	Your actual sender email addresses
+SENDER_PRIORITY in build_digest.rb	Your priority weighting for those senders
+ANTHROPIC_API_KEY env var	Set in shell profile
 Next Steps (in order)
-1. Google Cloud Console: create project, enable Gmail API, download credentials.json to ~/Desktop/aggregation/
-2. export ANTHROPIC_API_KEY=... in ~/.zshrc
-3. Populate SENDER_FILTER and SENDER_PRIORITY constants
+1. Google Cloud Console: create project, enable Gmail API, download credentials.json to ~/Desktop/aggregation/
+2. export ANTHROPIC_API_KEY=... in ~/.zshrc
+3. Populate SENDER_FILTER and SENDER_PRIORITY constants
 4. cd ~/Desktop/aggregation && bundle install
-5. ruby fetch_gmail.rb -- triggers browser OAuth on first run
-6. Verify files appear in data/raw/, then run ruby summarize.rb, then ruby build_digest.rb
-7. Full run: ruby digest.rb
+5. ruby fetch_gmail.rb -- triggers browser OAuth on first run
+6. Verify files appear in data/raw/, then run ruby summarize.rb, then ruby build_digest.rb
+7. Full run: ruby digest.rb
 
 ---
 

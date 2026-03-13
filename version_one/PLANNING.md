@@ -77,19 +77,19 @@ A scheduled content aggregation tool that retrieves emails matching criteria, su
 ### Project Structure
 ```
 ~/bin/content_aggregator/
-├── bin/
-│   └── content_aggregator          # Main CLI entry point
-├── lib/
-│   ├── email_fetcher.rb            # Gmail adapter with full message fetch
-│   ├── storage.rb                  # Markdown file persistence
-│   ├── summarizer.rb               # LLM integration
-│   ├── aggregator.rb               # Ranking algorithm
-│   └── formatter.rb                # Digest output
-├── data/                          # Created for storage
-│   ├── emails/
-│   ├── summaries/
-│   └── digests/
-└── config.yml.example              # Configuration template
+	bin/
+		content_aggregator          # Main CLI entry point
+	lib/
+		email_fetcher.rb            # Gmail adapter with full message fetch
+		storage.rb                  # Markdown file persistence
+		summarizer.rb               # LLM integration
+		aggregator.rb               # Ranking algorithm
+		formatter.rb                # Digest output
+	data/                           # Created for storage
+		emails/
+		summaries/
+		digests/
+	config.yml.example              # Configuration template
 ```
 
 ### Implemented Features
